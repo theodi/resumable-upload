@@ -1,4 +1,5 @@
 require_dependency "resumable_upload/application_controller"
+require 'stored_csv'
 
 class ChunksController < ApplicationController
 
@@ -63,9 +64,10 @@ class ChunksController < ApplicationController
           end
 
           target_file.rewind
-          target_file.close
 
-          render json: { file: target_file.path }, :status => 200
+          stored_csv = StoredCSV.save(target_file, params[:resumableFilename])
+
+          render json: { id: stored_csv.id.to_s }, :status => 200
         else
           render :nothing => true, :status => 200
         end
