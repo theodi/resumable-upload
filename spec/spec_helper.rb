@@ -92,8 +92,6 @@ RSpec.configure do |config|
 =end
 
 def mock_uploaded_file(file, content_type = "text/csv")
-  require 'byebug'
-  byebug
   upload_file = fixture_file_upload(file, content_type)
   class << upload_file
     # The reader method is present in a real invocation,
