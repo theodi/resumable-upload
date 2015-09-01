@@ -7,8 +7,8 @@ require "resumable_upload/version"
 Gem::Specification.new do |s|
   s.name        = "resumable_upload"
   s.version     = ResumableUpload::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
+  s.authors     = "Ben Couston"
+  s.email       = "TODO: Your email"
   s.homepage    = "TODO"
   s.summary     = "TODO: Summary of ResumableUpload."
   s.description = "TODO: Description of ResumableUpload."
