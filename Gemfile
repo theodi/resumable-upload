@@ -1,3 +1,5 @@
+#test travis
+
 source "https://rubygems.org"
 
 # Declare your gem's dependencies in resumable_upload.gemspec.
