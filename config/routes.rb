@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+ResumableUpload::Engine.routes.draw do
 
   resource :chunk, :only => [:create, :show]
 
