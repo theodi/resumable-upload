@@ -31,6 +31,7 @@ module ResumableUpload
 
             #Create a target file
             target_file = Tempfile.new(params[:resumableFilename])
+            target_file.binmode
             for i in 1..params[:resumableChunkNumber].to_i
               #Select the chunk
               chunk = Mongoid::GridFs.find({"metadata.resumableFilename" => params[:resumableFilename],
