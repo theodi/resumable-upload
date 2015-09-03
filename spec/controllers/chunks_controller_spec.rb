@@ -2,12 +2,13 @@ require 'spec_helper'
 require 'rails_helper'
 require 'mongoid/grid_fs'
 
-describe ChunksController, type: :controller do
+describe ResumableUpload::ChunksController, type: :controller do
+  routes { ResumableUpload::Engine.routes }
 
   describe "GET 'show'" do
 
     it "returns 404 if chunk does not exist" do
-      get 'show', resumableFilename: "error", resumableChunkNumber: "error"
+      get 'show', resumableFilename: "error", resumableChunkNumber: "error", :controller=>"resumable_upload/chunks"
       response.code.should == "404"
     end
 
