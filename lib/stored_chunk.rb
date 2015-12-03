@@ -2,16 +2,16 @@ require 'fog_storage'
 
 class StoredChunk
 
-  def self.save(file, resumableFilename, resumableChunkNumber)
+  def self.save(resumableFilename, file, resumableChunkNumber)
     fog.create_file(resumableFilename, file, resumableChunkNumber)
   end
 
-  def self.destroy(file)
-    fog.delete_file(filename)
+  def self.destroy(filename, chunk_number)
+    fog.delete_file(filename, chunk_number)
   end
 
-  def self.exist(resumableFilename, resumableChunkNumber)
-    !fog.find_file(resumableFilename, resumableFilename).nil?
+  def self.exists?(resumableFilename, resumableChunkNumber)
+    fog.file_exists?(resumableFilename, resumableChunkNumber)
   end
 
   def self.fog
