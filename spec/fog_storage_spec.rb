@@ -13,35 +13,35 @@ describe FogStorage do
   end
 
   it 'creates a file' do
-    subject.create_file("my-awesome-file", "derp", 1)
+    subject.create_file("my-awesome-file", "derp")
 
     expect(subject.bucket.files.count).to eq(1)
-    expect(subject.bucket.files.first.key).to eq("my-awesome-file/1")
+    expect(subject.bucket.files.first.key).to eq("my-awesome-file")
     expect(subject.bucket.files.first.body).to eq("derp")
   end
 
   it 'finds a file' do
-    file = subject.create_file("my-awesome-file", "derp", 1)
+    file = subject.create_file("my-awesome-file", "derp")
 
-    expect(subject.find_file('my-awesome-file', 1)).to eq(file)
+    expect(subject.find_file('my-awesome-file')).to eq(file)
   end
 
   it 'deletes a file' do
-    subject.create_file("my-awesome-file", "derp", 1)
+    subject.create_file("my-awesome-file", "derp")
 
     expect(subject.bucket.files.count).to eq(1)
 
-    subject.delete_file('my-awesome-file', 1)
+    subject.delete_file('my-awesome-file')
 
     expect(subject.bucket.files.count).to eq(0)
   end
 
   it 'checks if a file exists' do
-    expect(subject.file_exists?('my-awesome-file', 1)).to be false
+    expect(subject.file_exists?('my-awesome-file')).to be false
 
-    subject.create_file("my-awesome-file", "derp", 1)
+    subject.create_file("my-awesome-file", "derp")
 
-    expect(subject.file_exists?('my-awesome-file', 1)).to be true
+    expect(subject.file_exists?('my-awesome-file')).to be true
   end
 
 end

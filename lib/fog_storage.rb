@@ -18,23 +18,23 @@ class FogStorage
     @connection.directories.get(ENV['AWS_BUCKET_NAME'])
   end
 
-  def create_file(filename, content, chunk_number)
+  def create_file(filename, content)
     bucket.files.create(
       body: content,
-      key: "#{filename}/#{chunk_number}",
+      key: filename,
     )
   end
 
-  def find_file(filename, chunk_number)
-    bucket.files.find { |i| i.key == "#{filename}/#{chunk_number}" }
+  def find_file(filename)
+    bucket.files.find { |i| i.key == filename }
   end
 
-  def delete_file(filename, chunk_number)
-    find_file(filename, chunk_number).destroy
+  def delete_file(filename)
+    find_file(filename).destroy
   end
 
-  def file_exists?(filename, chunk_number)
-    !find_file(filename, chunk_number).nil?
+  def file_exists?(filename)
+    !find_file(filename).nil?
   end
 
 end
