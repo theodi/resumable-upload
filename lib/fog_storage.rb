@@ -33,4 +33,8 @@ class FogStorage
     find_file(filename, chunk_number).destroy
   end
 
+  def file_exists?(filename, chunk_number)
+    !find_file(filename, chunk_number).nil?
+  end
+
 end
