@@ -101,14 +101,17 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 
-def mock_uploaded_file(file, content_type = "text/csv")
-  upload_file = fixture_file_upload(file, content_type)
-  class << upload_file
-    # The reader method is present in a real invocation,
-    # but missing from the fixture object for some reason (Rails 3.1.1)
-    attr_reader :tempfile
+  def mock_uploaded_file(file, body, content_type = "text/csv")
+    file = Tempfile.new(file)
+    file.write(body)
+    file.rewind
+    upload_file = Rack::Test::UploadedFile.new(file, content_type)
+    class << upload_file
+      # The reader method is present in a real invocation,
+      # but missing from the fixture object for some reason (Rails 3.1.1)
+      attr_reader :tempfile
+    end
+    upload_file
   end
-  upload_file
-end
 
 end
