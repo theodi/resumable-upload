@@ -39,4 +39,12 @@ describe StoredChunk do
     described_class.find(filename, chunk_number)
   end
 
+  it 'gets the total number of chunks' do
+    5.times do |i|
+      described_class.save("my-file", "foo", i)
+    end
+
+    expect(described_class.total('my-file')).to eq(5)
+  end
+
 end
