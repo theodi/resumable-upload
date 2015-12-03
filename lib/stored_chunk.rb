@@ -1,20 +1,22 @@
-require 'mongoid/grid_fs'
+require 'fog_storage'
 
 class StoredChunk
 
   def self.save(file, resumableFilename, resumableChunkNumber)
-    stored_chunk = Mongoid::GridFs.put(file)
-    stored_chunk.metadata = { resumableFilename: resumableFilename, resumableChunkNumber: resumableChunkNumber}
-    stored_chunk.save
+    fog.create_file(resumableFilename, file, resumableChunkNumber)
   end
 
   def self.destroy(file)
-    Mongoid::GridFs.delete(file._id.to_s)
+    fog.delete_file(filename)
   end
 
   def self.exist(resumableFilename, resumableChunkNumber)
-    return (Mongoid::GridFs.find({"metadata.resumableFilename" => resumableFilename,
-      "metadata.resumableChunkNumber" => resumableChunkNumber}) != nil)
+    !fog.find_file(resumableFilename, resumableFilename).nil?
+  end
+
+  def self.fog
+    @@fog ||= FogStorage.new
+    @@fog
   end
 
 end

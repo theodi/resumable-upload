@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.0.13"
   s.add_dependency "bson", "3.1.1"
+  s.add_dependency "fog", "~> 1.36"
+  s.add_dependency "dotenv", "~> 2.0"
 
-  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "pry"
 end
