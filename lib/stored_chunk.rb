@@ -6,8 +6,8 @@ class StoredChunk
     fog.create_file full_path(filename, chunk_number), file
   end
 
-  def self.destroy(filename, chunk_number)
-    fog.delete_file full_path(filename, chunk_number)
+  def self.destroy(filename)
+    fog.delete_file filename
   end
 
   def self.exists?(filename, chunk_number)
@@ -19,7 +19,11 @@ class StoredChunk
   end
 
   def self.full_path(filename, chunk_number)
-    File.join filename, chunk_number.to_s
+    File.join "#{filename}_chunks", chunk_number.to_s
+  end
+
+  def self.total(filename)
+    fog.bucket.files.select { |f| f.key.match /#{filename}_chunks\// }.count
   end
 
   def self.fog
