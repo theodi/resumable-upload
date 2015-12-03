@@ -7,11 +7,11 @@ require "resumable_upload/version"
 Gem::Specification.new do |s|
   s.name        = "resumable_upload"
   s.version     = ResumableUpload::VERSION
-  s.authors     = "Ben Couston"
-  s.email       = "TODO: Your email"
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of ResumableUpload."
-  s.description = "TODO: Description of ResumableUpload."
+  s.authors     = ["Ben Couston", "Stuart Harrison", "Sam Pikesley"]
+  s.email       = "ops@theodi.org"
+  s.homepage    = "https://github.com/theodi/resumable-upload"
+  s.summary     = "A Resumable.js Rails Engine"
+  s.description = "A Resumable.js Rails Engine"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 4.0.13"
   s.add_dependency "bson", "3.1.1"
   s.add_dependency "fog", "~> 1.36"
-  s.add_dependency "dotenv", "~> 2.0"
+  s.add_dependency "dotenv", "0.7.0"
 
   s.add_development_dependency "pry"
   s.add_development_dependency "sqlite3"
