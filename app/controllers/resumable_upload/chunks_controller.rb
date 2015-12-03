@@ -1,5 +1,4 @@
 require_dependency "resumable_upload/application_controller"
-require 'stored_csv'
 require 'stored_chunk'
 
 module ResumableUpload
@@ -10,7 +9,7 @@ module ResumableUpload
         #GET /chunk
         def show
 
-          if StoredChunk.exist(params[:resumableFilename], params[:resumableChunkNumber])
+          if StoredChunk.exists?(params[:resumableFilename], params[:resumableChunkNumber])
             #Let resumable.js know this chunk already exists
             render :nothing => true, :status => 200
           else
@@ -22,7 +21,7 @@ module ResumableUpload
 
         #POST /chunk
         def create
-          StoredChunk.save(params[:file].tempfile, params[:resumableFilename], params[:resumableChunkNumber])
+          StoredChunk.save(params[:resumableFilename], params[:file].tempfile.read, params[:resumableChunkNumber])
           #Concatenate all the partial files into the original file
           currentSize = params[:resumableChunkNumber].to_i * params[:resumableChunkSize].to_i
           filesize = params[:resumableTotalSize].to_i
@@ -34,19 +33,18 @@ module ResumableUpload
             target_file.binmode
             for i in 1..params[:resumableChunkNumber].to_i
               #Select the chunk
-              chunk = Mongoid::GridFs.find({"metadata.resumableFilename" => params[:resumableFilename],
-                "metadata.resumableChunkNumber" => "#{i}"})
-              chunk.data.each_line do |line|
+              chunk = StoredChunk.find(params[:resumableFilename], i)
+              chunk.body.each_line do |line|
                 target_file.write(line)
               end
 
               #Deleting chunk
-              StoredChunk.destroy(chunk)
+              StoredChunk.destroy(chunk, i)
             end
 
             target_file.rewind
 
-            stored_csv = StoredCSV.save(target_file, params[:resumableFilename])
+            stored_csv = FogStorage.create_file(params[:resumableFilename], target_file)
 
             render json: { id: stored_csv.id.to_s }, :status => 200
           else
