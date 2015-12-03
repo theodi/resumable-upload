@@ -4,14 +4,6 @@ describe FogStorage do
 
   subject { described_class.new }
 
-  before(:each) do
-    FogStorage.new.connection.directories.create(key: ENV['AWS_BUCKET_NAME'])
-  end
-
-  after(:each) do
-    Fog::Mock.reset
-  end
-
   it 'gets a bucket' do
     expect(subject.bucket.key).to eq(ENV['AWS_BUCKET_NAME'])
   end

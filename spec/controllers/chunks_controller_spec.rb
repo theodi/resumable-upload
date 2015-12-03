@@ -4,10 +4,6 @@ require 'rails_helper'
 describe ResumableUpload::ChunksController, type: :controller do
   routes { ResumableUpload::Engine.routes }
 
-  before(:all) do
-    FogStorage.new.connection.directories.create(key: ENV['AWS_BUCKET_NAME'])
-  end
-
   describe "GET 'show'" do
 
     it "returns 404 if chunk does not exist" do

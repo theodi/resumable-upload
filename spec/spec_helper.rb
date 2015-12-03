@@ -101,6 +101,14 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 
+  config.before(:each) do
+    FogStorage.new.connection.directories.create(key: ENV['AWS_BUCKET_NAME'])
+  end
+
+  config.after(:each) do
+    Fog::Mock.reset
+  end
+
   def mock_uploaded_file(file, body, content_type = "text/csv")
     file = Tempfile.new(file)
     file.write(body)
