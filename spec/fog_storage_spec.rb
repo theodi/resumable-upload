@@ -1,12 +1,5 @@
 require 'spec_helper'
 
-ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'
-ENV['AWS_SECRET_ACCESS_KEY'] = 'fakesecret'
-ENV['AWS_BUCKET_NAME'] = 'buckethead'
-
-Fog.mock!
-require './lib/fog_storage'
-
 describe FogStorage do
 
   subject { described_class.new }
