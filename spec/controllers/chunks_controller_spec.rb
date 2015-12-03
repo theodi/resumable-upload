@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'rails_helper'
-require 'mongoid/grid_fs'
 
 describe ResumableUpload::ChunksController, type: :controller do
   routes { ResumableUpload::Engine.routes }
