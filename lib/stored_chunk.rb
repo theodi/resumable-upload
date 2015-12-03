@@ -14,6 +14,10 @@ class StoredChunk
     fog.file_exists?(resumableFilename, resumableChunkNumber)
   end
 
+  def self.find(filename, chunk_number)
+    fog.find_file(filename, chunk_number)
+  end
+
   def self.fog
     @@fog ||= FogStorage.new
     @@fog

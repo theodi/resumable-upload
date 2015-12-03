@@ -30,4 +30,13 @@ describe StoredChunk do
     described_class.exists?(filename, chunk_number)
   end
 
+  it 'finds a file' do
+    filename = 'my-terrible-file'
+    chunk_number = 1
+
+    expect_any_instance_of(FogStorage).to receive(:find_file).with(filename, chunk_number)
+
+    described_class.find(filename, chunk_number)
+  end
+
 end
