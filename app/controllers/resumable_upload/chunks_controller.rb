@@ -47,7 +47,7 @@ module ResumableUpload
 
             stored_csv = FogStorage.new.create_file(params[:resumableIdentifier], target_file.read)
 
-            render json: { id: stored_csv.key }, :status => 200
+            render :nothing => true, :status => 200
           else
             render :nothing => true, :status => 200
           end
