@@ -7,13 +7,13 @@ describe ResumableUpload::ChunksController, type: :controller do
   describe "GET 'show'" do
 
     it "returns 404 if chunk does not exist" do
-      get 'show', resumableFilename: "error", resumableChunkNumber: "error"
+      get 'show', resumableIdentifier: "error", resumableChunkNumber: "error"
       expect(response.code).to eq "404"
     end
 
     it "returns 200 if chunk exists" do
       FogStorage.new.create_file("spec_chunk_chunks/0", "derp")
-      get 'show', resumableFilename: "spec_chunk", resumableChunkNumber: "0"
+      get 'show', resumableIdentifier: "spec_chunk", resumableChunkNumber: "0"
       expect(response.code).to eq "200"
     end
 
@@ -25,7 +25,7 @@ describe ResumableUpload::ChunksController, type: :controller do
       expect_any_instance_of(FogStorage).to receive(:create_file).with("spec_chunk_chunks/1", "some stuff")
 
       mock_file = mock_uploaded_file("file", "some stuff")
-      post 'create', resumableFilename: "spec_chunk",
+      post 'create', resumableIdentifier: "spec_chunk",
         resumableChunkNumber: "1", resumableChunkSize: "5", resumableCurrentChunkSize: "5", resumableTotalSize: "100", resumableTotalChunks: "1",
         file: mock_file
 
@@ -38,7 +38,7 @@ describe ResumableUpload::ChunksController, type: :controller do
       (1..5).each do |i|
         mock_file = mock_uploaded_file("file", "Part #{i}\n")
 
-        post 'create', resumableFilename: resumable_file_name,
+        post 'create', resumableIdentifier: resumable_file_name,
           resumableChunkNumber: i, resumableChunkSize: "5", resumableCurrentChunkSize: "5", resumableTotalSize: "25", resumableTotalChunks: "5",
           file: mock_file
       end
