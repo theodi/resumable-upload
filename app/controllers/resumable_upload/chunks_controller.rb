@@ -26,8 +26,7 @@ module ResumableUpload
           currentSize = params[:resumableChunkNumber].to_i * params[:resumableChunkSize].to_i
           filesize = params[:resumableTotalSize].to_i
 
-          if params[:resumableTotalChunks].to_i == StoredChunk.total(params[:resumableIdentifier])
-
+          if params[:resumableTotalChunks].to_i == StoredChunk.total(params[:resumableIdentifier]) && params[:joinChunks]
             StoredChunk.join(params[:resumableIdentifier], params[:resumableTotalChunks])
             render :nothing => true, :status => 200
           else
