@@ -50,7 +50,7 @@ describe ResumableUpload::ChunksController, type: :controller do
 
       (1..5).each do |i|
         chunk = StoredChunk.find(resumable_file_name, i)
-        expect(chunk).to_not eq(nil)
+        expect(chunk).to eq(nil)
       end
     end
 
