@@ -26,27 +26,8 @@ module ResumableUpload
           currentSize = params[:resumableChunkNumber].to_i * params[:resumableChunkSize].to_i
           filesize = params[:resumableTotalSize].to_i
 
-          if params[:resumableTotalChunks].to_i == StoredChunk.total(params[:resumableIdentifier])
-
-            #Create a target file
-            target_file = Tempfile.new(params[:resumableIdentifier])
-            target_file.binmode
-            for i in 1..params[:resumableChunkNumber].to_i
-              #Select the chunk
-              chunk = StoredChunk.find(params[:resumableIdentifier], i)
-
-              chunk.body.each_line do |line|
-                target_file.write(line)
-              end
-
-              #Deleting chunk
-              StoredChunk.destroy(chunk.key)
-            end
-
-            target_file.rewind
-
-            stored_csv = FogStorage.new.create_file(params[:resumableIdentifier], target_file.read)
-
+          if params[:resumableTotalChunks].to_i == StoredChunk.total(params[:resumableIdentifier]) && params[:joinChunks]
+            StoredChunk.join(params[:resumableIdentifier], params[:resumableTotalChunks])
             render :nothing => true, :status => 200
           else
             render :nothing => true, :status => 200

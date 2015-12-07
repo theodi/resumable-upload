@@ -47,4 +47,15 @@ describe StoredChunk do
     expect(described_class.total('my-file')).to eq(5)
   end
 
+  it "joins chunks" do
+    (1..5).each do |i|
+      described_class.save("my-file", "Part #{i}\n", i)
+    end
+
+    file = described_class.join("my-file", 5)
+
+    expect(file).to_not eq(nil)
+    expect(file.body).to eq("Part 1\nPart 2\nPart 3\nPart 4\nPart 5\n")
+  end
+
 end
