@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 4.0"
-  s.add_dependency "fog", "~> 1.36"
+  s.add_dependency "fog", ">= 1.36", "< 3.0"
   s.add_dependency "dotenv"
 
   s.add_development_dependency "pry"
